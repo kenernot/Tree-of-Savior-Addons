@@ -180,17 +180,5 @@
 			"ui",
 			"stats"
 		]
-	},
-	{
-		"name" : "Zoomy",
-		"file" : "zoomy",
-		"extension" : "ipf",
-		"releaseTag" : "brandish",
-		"fileVersion" : "v1.0.0",
-		"unicode" : "⛄",
-		"description" : "Allows you to zoom in and out by holding LEFTALT and pressing + or -. The keys may change depending on your keyboard setup.",
-		"tags" : [
-			"zoom"
-		]
 	}
 ]
