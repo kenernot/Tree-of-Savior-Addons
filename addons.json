@@ -169,6 +169,18 @@
 		]
 	},
 	{
+		"name" : "Show HP Bars",
+		"file" : "showhpbars",
+		"extension" : "ipf",
+		"releaseTag" : "ledas",
+		"fileVersion" : "v1.0.0",
+		"unicode" : "⛄",
+		"description" : "Created a command to force the HP bars to show. This is useful in places like Earth Tower where you have to protect an object and often times the HP bar doesn't even show up. The command is /!showhpbars. Assign this to a macro slot. You have to use it again whenever you want to see the updated HP bar for now.",
+		"tags" : [
+			"population"
+		]
+	},
+	{
 		"name" : "Show Invested Stat Points",
 		"file" : "showinvestedstatpoints",
 		"extension" : "ipf",
