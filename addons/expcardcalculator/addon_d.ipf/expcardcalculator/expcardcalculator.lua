@@ -13,8 +13,6 @@ function EXPCARDCALCULATOR_ON_INIT(addon, frame)
 
 	local sysmenuFrame = ui.GetFrame("sysmenu");
 	SYSMENU_CHECK_HIDE_VAR_ICONS(sysmenuFrame);
-
-	CHAT_SYSTEM("expcardcalculator loaded!");
 end
 
 function EXPCARDCALCULATOR_TOGGLE_FRAME()
