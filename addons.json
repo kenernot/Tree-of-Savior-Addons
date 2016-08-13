@@ -157,6 +157,30 @@
 		]
 	},
 	{
+		"name" : "Population",
+		"file" : "population",
+		"extension" : "ipf",
+		"releaseTag" : "ringpommelsaber",
+		"fileVersion" : "v1.0.0",
+		"unicode" : "⛄",
+		"description" : "Type /!who in chat to display the population. Doesn't count people in instances (dungeons).",
+		"tags" : [
+			"population"
+		]
+	},
+	{
+		"name" : "Show HP Bars",
+		"file" : "showhpbars",
+		"extension" : "ipf",
+		"releaseTag" : "ledas",
+		"fileVersion" : "v1.0.0",
+		"unicode" : "⛄",
+		"description" : "Created a command to force the HP bars to show. This is useful in places like Earth Tower where you have to protect an object and often times the HP bar doesn't even show up. The command is /!showhpbars. Assign this to a macro slot. You have to use it again whenever you want to see the updated HP bar for now.",
+		"tags" : [
+			"population"
+		]
+	},
+	{
 		"name" : "Show Invested Stat Points",
 		"file" : "showinvestedstatpoints",
 		"extension" : "ipf",
@@ -167,18 +191,6 @@
 		"tags" : [
 			"ui",
 			"stats"
-		]
-	},
-	{
-		"name" : "Zoomy",
-		"file" : "zoomy",
-		"extension" : "ipf",
-		"releaseTag" : "brandish",
-		"fileVersion" : "v1.0.0",
-		"unicode" : "⛄",
-		"description" : "Allows you to zoom in and out by holding LEFTALT and pressing + or -. The keys may change depending on your keyboard setup.",
-		"tags" : [
-			"zoom"
 		]
 	}
 ]
