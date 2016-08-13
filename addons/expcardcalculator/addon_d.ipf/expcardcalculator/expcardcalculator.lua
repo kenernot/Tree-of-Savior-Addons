@@ -1,20 +1,20 @@
-local acutil = require("acutil");
-
-local currentClassExperience = 0;
+--dofile("../data/addon_d/expcardcalculator/expcardcalculator.lua");
 
 function EXPCARDCALCULATOR_ON_INIT(addon, frame)
+	local acutil = require("acutil");
+
 	acutil.slashCommand("/cardcalc", EXPCARDCALCULATOR_TOGGLE_FRAME);
 	acutil.slashCommand("/expcardcalculator", EXPCARDCALCULATOR_TOGGLE_FRAME);
 
-	addon:RegisterMsg("JOB_EXP_UPDATE", "EXPCARDCALCULATOR_ON_JOB_EXP_UPDATE");
 	addon:RegisterMsg("JOB_EXP_ADD", "EXPCARDCALCULATOR_ON_JOB_EXP_UPDATE");
+	addon:RegisterMsg("JOB_EXP_UPDATE", "EXPCARDCALCULATOR_ON_JOB_EXP_UPDATE");
 
 	acutil.setupHook(SYSMENU_CHECK_HIDE_VAR_ICONS_HOOKED, "SYSMENU_CHECK_HIDE_VAR_ICONS");
 
 	local sysmenuFrame = ui.GetFrame("sysmenu");
 	SYSMENU_CHECK_HIDE_VAR_ICONS(sysmenuFrame);
 
-	calculateClassRankAndLevel();
+	CHAT_SYSTEM("expcardcalculator loaded!");
 end
 
 function EXPCARDCALCULATOR_TOGGLE_FRAME()
@@ -22,7 +22,12 @@ function EXPCARDCALCULATOR_TOGGLE_FRAME()
 end
 
 function EXPCARDCALCULATOR_ON_JOB_EXP_UPDATE(frame, msg, str, exp, tableinfo)
-	currentClassExperience = exp - tableinfo.startExp;
+	_G["EXPCARDCALCULATOR"] = _G["EXPCARDCALCULATOR"] or {};
+	_G["EXPCARDCALCULATOR"].totalClassExperience = exp;
+	_G["EXPCARDCALCULATOR"].currentClassExperience = exp - tableinfo.startExp;
+	_G["EXPCARDCALCULATOR"].requiredClassExperience = tableinfo.endExp - tableinfo.startExp;
+	_G["EXPCARDCALCULATOR"].classLevel = tableinfo.level;
+	_G["EXPCARDCALCULATOR"].startExperience = tableinfo.startExp;
 end
 
 function string.starts(String,Start)
@@ -45,7 +50,9 @@ local function createExperienceRow(index, itemName, numberOfItems, totalExperien
 				tolua.cast(cardItem, "ui::CControlSet");
 
 				local title = GET_CHILD(cardItem, "title", "ui::CRichText");
-				title:SetText(itemName .. " (" .. numberOfItems .. ")");
+				--may add number of cards back later
+				--title:SetText(itemName .. " (" .. numberOfItems .. ")");
+				title:SetText(itemName);
 
 				local stat = GET_CHILD(cardItem, "stat", "ui::CRichText");
 				stat:SetText(GetCommaedText(totalExperience));
@@ -67,29 +74,7 @@ local function createExperienceRow(index, itemName, numberOfItems, totalExperien
 	return yPosition;
 end
 
-local function getClassData()
-	local totalClassExperience = 0;
-	local classExperienceData = {};
-	local classExperienceList, count = GetClassList("Xp_Job");
-
-	for i = 0, count - 1 do
-		local jobClass = GetClassByIndexFromList(classExperienceList, i);
-
-		totalClassExperience = totalClassExperience + jobClass.TotalXp;
-
-		classExperienceData[jobClass.ClassName]  = {};
-		classExperienceData[jobClass.ClassName]["requiredExperience"] = jobClass.TotalXp;
-		classExperienceData[jobClass.ClassName]["totalClassExperience"] = totalClassExperience;
-	end
-
-	return classExperienceData, totalClassExperience;
-end
-
-local function getExperienceCardTotals()
-	local totalBaseExperience = 0;
-	local totalClassExperience = 0;
-	local yPosition = 10;
-
+local function clearExperienceRows()
 	local expCardCalculatorFrame = ui.GetFrame("expcardcalculator");
 
 	if expCardCalculatorFrame ~= nil then
@@ -104,60 +89,37 @@ local function getExperienceCardTotals()
 			end
 		end
 	end
-
-	local invItemList = session.GetInvItemList();
-
-	if invItemList ~= nil then
-		local index = invItemList:Head();
-		local itemCount = session.GetInvItemList():Count();
-
-		for i = 0, itemCount - 1 do
-			local invItem = invItemList:Element(index);
-			if invItem ~= nil then
-				local itemobj = GetIES(invItem:GetObject());
-
-				if itemobj ~= nil then
-					if string.starts(itemobj.ClassName, "expCard") then
-						local remainInvItemCount = GET_REMAIN_INVITEM_COUNT(invItem);
-
-						local totalBaseCardExperience = 0;
-
-						for i=1,remainInvItemCount do
-							totalBaseCardExperience = totalBaseCardExperience + itemobj.NumberArg1;
-							totalClassExperience = totalClassExperience + (itemobj.NumberArg1 * 0.77);
-						end
-
-						totalBaseExperience = totalBaseExperience + totalBaseCardExperience;
-
-						yPosition = createExperienceRow(i, itemobj.Name, remainInvItemCount, totalBaseCardExperience, yPosition);
-					end
-				end
-			end
-
-			index = invItemList:Next(index);
-		end
-	end
-
-	return totalBaseExperience, totalClassExperience;
 end
 
-local function calculateClassRankAndLevel()
-	local classExperienceData = getClassData();
+local function createExperienceRows(experienceCardData)
+	clearExperienceRows();
 
-	local int startRank = 1;
-	local int startLevel = 1;
+	local index = 0;
+	local yPosition = 10;
 
-	local baseExperienceFromCards, classExperienceFromCards = getExperienceCardTotals();
+	for k,v in pairs(experienceCardData["base"]["cards"]) do
+		yPosition = createExperienceRow(index, k .. " Base", 1, v, yPosition);
+
+		index = index + 1;
+	end
+
+	for k,v in pairs(experienceCardData["class"]["cards"]) do
+		yPosition = createExperienceRow(index, k .. " Class", 1, v, yPosition);
+
+		index = index + 1;
+	end
 end
 
 function EXP_CARD_CALCULATOR_OPEN()
-	local baseExperienceFromCards, classExperienceFromCards = getExperienceCardTotals();
+	local experienceCardData = getTotalExperienceFromCards();
+	local baseExperienceFromCards = experienceCardData["base"].totalBaseExperience;
+	local classExperienceFromCards = experienceCardData["class"].totalClassExperience;
 
+	createExperienceRows(experienceCardData);
+
+	local calculatedClassData = calculateClassRankAndLevel(classExperienceFromCards);
 	local expCardCalculatorFrame = ui.GetFrame("expcardcalculator");
-
 	local totalBaseExperience = 0;
-	local yPosition = 10;
-
 	local finalBaseLevel = 0;
 	local finalBaseLevelPercent = 0;
 	local pc = GetMyPCObject();
@@ -180,7 +142,6 @@ function EXP_CARD_CALCULATOR_OPEN()
 		local requiredBaseExperience = currentLevelClass.TotalXp - previousLevelClass.TotalXp;
 		local baseExperienceIntoLevel = finalBaseExperience - previousLevelClass.TotalXp;
 
-
 		--base level text
 		local baseLevelText = expCardCalculatorFrame:CreateOrGetControl("richtext", "baseCardLevel", 30, 70, 200, 50);
 		if baseLevelText ~= nil then
@@ -201,15 +162,15 @@ function EXP_CARD_CALCULATOR_OPEN()
 		local classLevelText = expCardCalculatorFrame:CreateOrGetControl("richtext", "classCardLevel", 30, 150, 200, 50);
 		if classLevelText ~= nil then
 			tolua.cast(classLevelText, "ui::CRichText");
-			classLevelText:SetText("{@st43}Class Card Level coming next release!{/}");
+			classLevelText:SetText("{@st43}Class Card Level: " .. calculatedClassData.rank .. "-" .. calculatedClassData.level .. "{/}");
 			classLevelText:ShowWindow(1);
 		end
 
-		local classExperiencePercent = (102 / 1000) * 100;
+		local classExperiencePercent = calculatedClassData.percent;--(102 / 1000) * 100;
 
 		local classExperienceGauge = GET_CHILD(expCardCalculatorFrame, "classExperienceGauge", "ui::CGauge");
-		classExperienceGauge:SetTextTooltip(string.format("{@st42b}%d / %d (%d%%){/}", 102, 1000, classExperiencePercent));
-		classExperienceGauge:SetPoint(102, 1000);
+		classExperienceGauge:SetTextTooltip("{@st42b}" .. GetCommaedText(calculatedClassData.currentExperience) .. " / " .. GetCommaedText(calculatedClassData.requiredExperience) .. " (" .. classExperiencePercent .. "%){/}");
+		classExperienceGauge:SetPoint(calculatedClassData.currentExperience, calculatedClassData.requiredExperience);
 		classExperienceGauge:Resize(expCardCalculatorFrame:GetWidth() - 50, classExperienceGauge:GetHeight());
 		classExperienceGauge:ShowWindow(1);
 	end
@@ -244,4 +205,121 @@ function SYSMENU_CHECK_HIDE_VAR_ICONS_HOOKED(frame)
 	if expcardcalculatorButton ~= nil then
 		expcardcalculatorButton:SetTextTooltip("{@st59}Experience Card Calculator");
 	end
+end
+
+function getTotalExperienceFromCards()
+	local experienceCardData = {};
+	experienceCardData["base"] = {};
+	experienceCardData["base"]["cards"] = {};
+	experienceCardData["class"] = {};
+	experienceCardData["class"]["cards"] = {};
+
+	experienceCardData["base"].totalBaseExperience = 0;
+	experienceCardData["class"].totalClassExperience = 0;
+
+	local inventoryItems = session.GetInvItemList();
+
+	if inventoryItems ~= nil then
+		local index = inventoryItems:Head();
+		local itemCount = session.GetInvItemList():Count();
+
+		for i = 0, itemCount - 1 do
+			local inventoryItem = inventoryItems:Element(index);
+			if inventoryItem ~= nil then
+				local itemObj = GetIES(inventoryItem:GetObject());
+
+				if itemObj ~= nil then
+					if string.starts(itemObj.ClassName, "expCard") then
+						local inventoryItemCount = GET_REMAIN_INVITEM_COUNT(inventoryItem);
+
+						local totalBaseCardExperience = 0;
+						local totalClassCardExperience = 0;
+
+						for i = 1, inventoryItemCount do
+							totalBaseCardExperience = totalBaseCardExperience + itemObj.NumberArg1;
+							totalClassCardExperience = totalClassCardExperience + math.floor((itemObj.NumberArg1 * 0.77));
+						end
+
+						experienceCardData["base"]["cards"][itemObj.Name] = totalBaseCardExperience;
+						experienceCardData["class"]["cards"][itemObj.Name] = totalClassCardExperience
+
+						experienceCardData["base"].totalBaseExperience = experienceCardData["base"].totalBaseExperience + totalBaseCardExperience;
+						experienceCardData["class"].totalClassExperience = experienceCardData["class"].totalClassExperience + totalClassCardExperience;
+					end
+				end
+			end
+
+			index = inventoryItems:Next(index);
+		end
+	end
+
+	return experienceCardData;
+end
+
+function calculateClassRankAndLevel(totalClassExperienceFromCards)
+	local calculatedClassData = {};
+	local foundLevel = false;
+	local tempTotalClassExperience = totalClassExperienceFromCards + _G["EXPCARDCALCULATOR"].currentClassExperience;
+	local MAX_RANK = 10;
+	local MAX_CLASS_LEVEL = 14; --only do 14 because you can only level up 14 times. 15 is a duplicate row.
+	local clsList, cnt = GetClassList("Xp_Job");
+
+	local startingClassLevel = _G["EXPCARDCALCULATOR"].classLevel;
+
+	for rank = session.GetPcTotalJobGrade(), MAX_RANK do
+		for classLevel = startingClassLevel, MAX_CLASS_LEVEL do
+			local className = "Job_" .. rank .. "_" .. classLevel;
+			local currentClassAndRankData = GetClassByNameFromList(clsList, className);
+			local previousRankAndClassLevelName = getRankAndClassLevelName(getNextRankAndClassLevel(rank, classLevel, -1));
+			local previousClassAndRankData = GetClassByNameFromList(clsList, previousRankAndClassLevelName);
+			local requiredClassExperience = currentClassAndRankData.TotalXp - previousClassAndRankData.TotalXp;
+
+			tempTotalClassExperience = tempTotalClassExperience - requiredClassExperience;
+
+			if tempTotalClassExperience < 0 then
+				local currentClassExperienceIntoResultLevel = tempTotalClassExperience + requiredClassExperience;
+
+				calculatedClassData.rank = rank;
+				calculatedClassData.level = classLevel;
+				calculatedClassData.currentExperience = currentClassExperienceIntoResultLevel;
+				calculatedClassData.requiredExperience = requiredClassExperience;
+				calculatedClassData.percent = (currentClassExperienceIntoResultLevel / requiredClassExperience) * 100;
+
+				foundLevel = true;
+				break;
+			end
+		end
+
+		startingClassLevel = 1;
+
+		if foundLevel == true then
+			break;
+		end
+	end
+
+	return calculatedClassData;
+end
+
+function getNextRankAndClassLevel(rank, classLevel, levelIncrement)
+	classLevel = classLevel + levelIncrement;
+
+	if classLevel > 14 then
+		rank = rank + 1;
+		classLevel = 1;
+	elseif classLevel < 1 then
+		rank = rank - 1;
+		classLevel = 1;
+	end
+
+	if rank < 1 then
+		rank = 1;
+	elseif rank > 10 then
+		rank = 10;
+	end
+
+	return rank, classLevel;
+end
+
+function getRankAndClassLevelName(rank, classLevel)
+	return "Job_" .. rank .. "_" .. classLevel;
 end
