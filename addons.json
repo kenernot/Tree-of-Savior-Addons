@@ -173,7 +173,7 @@
 		"file" : "showinvestedstatpoints",
 		"extension" : "ipf",
 		"releaseTag" : "brandish",
-		"fileVersion" : "v1.0.0",
+		"fileVersion" : "v1.0.1",
 		"unicode" : "⛄",
 		"description" : "Shows the amount of invested stat points you have in each stat at the bottom of the status window.",
 		"tags" : [
