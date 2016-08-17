@@ -157,18 +157,6 @@
 		]
 	},
 	{
-		"name" : "Population",
-		"file" : "population",
-		"extension" : "ipf",
-		"releaseTag" : "ringpommelsaber",
-		"fileVersion" : "v1.0.0",
-		"unicode" : "⛄",
-		"description" : "Type /!who in chat to display the population. Doesn't count people in instances (dungeons).",
-		"tags" : [
-			"population"
-		]
-	},
-	{
 		"name" : "Show HP Bars",
 		"file" : "showhpbars",
 		"extension" : "ipf",
