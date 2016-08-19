@@ -70,7 +70,7 @@
 		"name" : "Gimme Cards",
 		"file" : "gimmecards",
 		"extension" : "ipf",
-		"releaseTag" : "ortrava",
+		"releaseTag" : "otrava",
 		"fileVersion" : "v1.0.0",
 		"unicode" : "⛄",
 		"description" : "Remove cards with '/removecard n' or '/unequipcard n' where n is the slot number. Good for those pesky hidden cards!",
