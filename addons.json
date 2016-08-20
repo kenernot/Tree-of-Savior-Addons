@@ -16,8 +16,8 @@
 		"name" : "Channel Surfer",
 		"file" : "channelsurfer",
 		"extension" : "ipf",
-		"releaseTag" : "brandish",
-		"fileVersion" : "v1.0.0",
+		"releaseTag" : "otrava",
+		"fileVersion" : "v1.0.1",
 		"unicode" : "⛄",
 		"description" : "Removes the confirmation box when changing channels, displays more channels in the dropdown box, and adds buttons to change channels easily.",
 		"tags" : [
