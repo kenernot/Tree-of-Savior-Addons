@@ -121,6 +121,20 @@
 		]
 	},
 	{
+		"name" : "Market Names",
+		"file" : "marketnames",
+		"extension" : "ipf",
+		"releaseTag" : "manamana",
+		"fileVersion" : "v1.0.0",
+		"unicode" : "⛄",
+		"description" : "Tired of people undercutting you on the market? Find out who they are and challenge them to a duel! Once you see a player in game, it logs your ID and you can see the seller of an item by hovering the buy button on the market. It is character specific, not account specific.",
+		"tags" : [
+			"market",
+			"seller",
+			"ui"
+		]
+	},
+	{
 		"name" : "Monster Frames",
 		"file" : "monsterframes",
 		"extension" : "ipf",
