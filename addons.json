@@ -106,6 +106,20 @@
 		]
 	},
 	{
+	"name" : "Link Item",
+	"file" : "linkitem",
+	"extension" : "ipf",
+	"releaseTag" : "corsair",
+	"fileVersion" : "v1.1.0",
+	"unicode" : "⛄",
+	"description" : "Adds a slash command to link an item in chat! /linkitem Hat_628087 s This $item is a hat! /li also works.",
+	"tags" : [
+			"item",
+			"link",
+			"chat"
+		]
+	},
+	{
 		"name" : "Map Fog Viewer",
 		"file" : "mapfogviewer",
 		"extension" : "ipf",
