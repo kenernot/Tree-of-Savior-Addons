@@ -112,7 +112,7 @@
 		"releaseTag" : "corsair",
 		"fileVersion" : "v1.0.0",
 		"unicode" : "⛄",
-		"description" : "Adds a slash command to link an item in chat! `/linkitem Hat_628087 s This $item is a hat!`",
+		"description" : "Adds a slash command to link an item in chat! /linkitem Hat_628087 s This $item is a hat!",
 		"tags" : [
 			"item",
 			"link",
