@@ -25,6 +25,19 @@
 		]
 	},
 	{
+		"name" : "Combat Timer",
+		"file" : "combattimer",
+		"extension" : "ipf",
+		"releaseTag" : "corsair",
+		"fileVersion" : "v1.0.0",
+		"unicode" : "⛄",
+		"description" : "Displays a draggable widget that displays whether you're in combat or not and the time until you're out.",
+		"tags" : [
+			"combat",
+			"timer"
+		]
+	},
+	{
 		"name" : "Developer Console",
 		"file" : "developerconsole",
 		"extension" : "ipf",
