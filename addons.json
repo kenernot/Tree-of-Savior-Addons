@@ -24,7 +24,7 @@
 			"channel"
 		]
 	},
-		{
+	{
 		"name" : "Combat Timer",
 		"file" : "combattimer",
 		"extension" : "ipf",
