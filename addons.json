@@ -29,7 +29,7 @@
 		"file" : "combattimer",
 		"extension" : "ipf",
 		"releaseTag" : "corsair",
-		"fileVersion" : "v1.0.3",
+		"fileVersion" : "v1.0.4",
 		"unicode" : "⛄",
 		"description" : "Displays a draggable widget that displays whether you're in combat or not and the time until you're out.",
 		"tags" : [
