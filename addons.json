@@ -17,7 +17,7 @@
 		"file" : "channelsurfer",
 		"extension" : "ipf",
 		"releaseTag" : "otrava",
-		"fileVersion" : "v1.0.2",
+		"fileVersion" : "v1.0.1",
 		"unicode" : "⛄",
 		"description" : "Removes the confirmation box when changing channels, displays more channels in the dropdown box, and adds buttons to change channels easily.",
 		"tags" : [
@@ -29,7 +29,7 @@
 		"file" : "combattimer",
 		"extension" : "ipf",
 		"releaseTag" : "corsair",
-		"fileVersion" : "v1.0.1",
+		"fileVersion" : "v1.0.2",
 		"unicode" : "⛄",
 		"description" : "Displays a draggable widget that displays whether you're in combat or not and the time until you're out.",
 		"tags" : [
