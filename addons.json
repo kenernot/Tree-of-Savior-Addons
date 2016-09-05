@@ -83,10 +83,10 @@
 		"name" : "Gimme Cards",
 		"file" : "gimmecards",
 		"extension" : "ipf",
-		"releaseTag" : "otrava",
-		"fileVersion" : "v1.0.0",
+		"releaseTag" : "corsair",
+		"fileVersion" : "v1.1.0",
 		"unicode" : "⛄",
-		"description" : "Remove cards with '/removecard n' or '/unequipcard n' where n is the slot number. Good for those pesky hidden cards!",
+		"description" : "imc sucks. Most incompetent company ever. Remove cards with '/removecard n' or '/unequipcard n' where n is the slot number. Use `/removecardtp` or `/unequipcardtp` to spend 5 TP to remove it with no experience loss. Good for those pesky hidden cards!",
 		"tags" : [
 			"cards",
 			"ui"
