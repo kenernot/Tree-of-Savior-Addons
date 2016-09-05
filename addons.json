@@ -234,5 +234,18 @@
 			"ui",
 			"stats"
 		]
+	},
+	{
+		"name" : "Stat Viewer",
+		"file" : "statviewer",
+		"extension" : "ipf",
+		"releaseTag" : "corsair",
+		"fileVersion" : "v1.0.0",
+		"unicode" : "⛄",
+		"description" : "Displays some key stats in a small window that updates on the fly.",
+		"tags" : [
+			"ui",
+			"stats"
+		]
 	}
 ]
