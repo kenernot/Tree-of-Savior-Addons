@@ -44,7 +44,7 @@
 		"releaseTag" : "corsair",
 		"fileVersion" : "v1.0.4",
 		"unicode" : "⛄",
-		"description" : "Displays a draggable widget that displays whether you're in combat or not and the time until you're out.",
+		"description" : "Don't use this as it causes disconnects on channel/map change. Not a way around it currently. Uninstall it! Displays a draggable widget that displays whether you're in combat or not and the time until you're out.",
 		"tags" : [
 			"combat",
 			"timer"
