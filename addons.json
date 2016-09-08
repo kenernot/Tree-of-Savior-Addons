@@ -13,6 +13,19 @@
 		]
 	},
 	{
+		"name" : "Boss Tracker",
+		"file" : "bosstracker",
+		"extension" : "ipf",
+		"releaseTag" : "bosstracker",
+		"fileVersion" : "v1.0.0",
+		"unicode" : "💀",
+		"description" : "Can't find a boss because of the pro players that monopolize them 24/7?! All you need is this boss tracker! Shows a circle on the map where a boss is and alerts you in chat when one is alive. Doesn't work for gimmick bosses such as templeshooter, archon, canceril, etc.",
+		"tags" : [
+			"boss",
+			"ui"
+		]
+	},
+	{
 		"name" : "Channel Surfer",
 		"file" : "channelsurfer",
 		"extension" : "ipf",
