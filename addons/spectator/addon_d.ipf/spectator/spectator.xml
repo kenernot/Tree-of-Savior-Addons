@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uiframe name="spectator" x="0" y="0" width="170" height="115">
+	<frame title="Spectator" snapclient="true" snapframe="true" layout_gravity="center center" margin="0 335 50 0"/>
+	<option visible="true" alwaysVisible="true" closebutton="false" useimageitem="true" piptype="right" autoopen="true" hideable="false"/>
+	<input hittest="true" movable="true" moveintitlebar="false" hittestframe="true"/>
+	<layer layerlevel="31"/>
+	<draw drawnotitlebar="false" drawtitlebar="false" drawframe="true"/>
+	<skin frameskin="padslot_offskin2"/>
+	<sound opensound="win_open" closesound="win_close"/>
+
+	<controls>
+		<button name="moveLeftButton" rect="0 0 50 50" margin="5 60 0 0" layout_gravity="left top" LBtnUpArgNum="" LBtnDownScp="SPECTATOR_MOVE_LEFT" MouseOffAnim="btn_mouseoff" MouseOnAnim="btn_mouseover" caption="{@st66b}<{/}" clicksound="button_click_big" oversound="button_over" skin="test_pvp_btn" texttooltip="{@st59}LEFT{/}"/>
+		<button name="moveDownButton" rect="0 0 50 50" margin="60 60 0 0" layout_gravity="left top" LBtnUpArgNum="" LBtnDownScp="SPECTATOR_MOVE_DOWN" MouseOffAnim="btn_mouseoff" MouseOnAnim="btn_mouseover" caption="{@st66b}v{/}" clicksound="button_click_big" oversound="button_over" skin="test_pvp_btn" texttooltip="{@st59}DOWN{/}"/>
+		<button name="moveRightButton" rect="0 0 50 50" margin="115 60 0 0" layout_gravity="left top" LBtnUpArgNum="" LBtnDownScp="SPECTATOR_MOVE_RIGHT" MouseOffAnim="btn_mouseoff" MouseOnAnim="btn_mouseover" caption="{@st66b}>{/}" clicksound="button_click_big" oversound="button_over" skin="test_pvp_btn" texttooltip="{@st59}RIGHT{/}"/>
+
+		<button name="zoomOutButton" rect="0 0 50 50" margin="5 5 0 0" layout_gravity="left top" LBtnUpArgNum="" LBtnDownScp="SPECTATOR_ZOOM_OUT" MouseOffAnim="btn_mouseoff" MouseOnAnim="btn_mouseover" caption="{@st66b}-{/}" clicksound="button_click_big" oversound="button_over" skin="test_pvp_btn" texttooltip="{@st59}ZOOM OUT{/}"/>
+		<button name="moveUpButton" rect="0 0 50 50" margin="60 5 0 0" layout_gravity="left top" LBtnUpArgNum="" LBtnDownScp="SPECTATOR_MOVE_UP" MouseOffAnim="btn_mouseoff" MouseOnAnim="btn_mouseover" caption="{@st66b}^{/}" clicksound="button_click_big" oversound="button_over" skin="test_pvp_btn" texttooltip="{@st59}UP{/}"/>
+		<button name="zoomInButton" rect="0 0 50 50" margin="115 5 0 0" layout_gravity="left top" LBtnUpArgNum="" LBtnDownScp="SPECTATOR_ZOOM_IN" MouseOffAnim="btn_mouseoff" MouseOnAnim="btn_mouseover" caption="{@st66b}+{/}" clicksound="button_click_big" oversound="button_over" skin="test_pvp_btn" texttooltip="{@st59}ZOOM IN{/}"/>
+	</controls>
+</uiframe>
