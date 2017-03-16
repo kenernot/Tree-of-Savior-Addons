@@ -12,34 +12,27 @@ function CHANNELSURFER_ON_INIT(addon, frame)
 end
 
 function SELECT_ZONE_MOVE_CHANNEL_HOOKED(index, channelID)
-	local mapName = session.GetMapName();
-	local mapCls = GetClass("Map", mapName);
-	local zoneInsts = session.serverState.GetMap(mapCls.ClassID);
+	local zoneInsts = session.serverState.GetMap();
 	if zoneInsts.pcCount == -1 then
 		ui.SysMsg(ClMsg("ChannelIsClosed"));
 		return;
 	end
 
-	app.ChangeChannel(channelID);
+	RUN_GAMEEXIT_TIMER("Channel", channelID);
 end
 
 function POPUP_CHANNEL_LIST_HOOKED(parent)
-    if parent:GetUserValue("ISOPENDROPCHANNELLIST") == "YES" then
-        parent:SetUserValue("ISOPENDROPCHANNELLIST", "NO");
-        return;
-    end
+	if parent:GetUserValue("ISOPENDROPCHANNELLIST") == "YES" then
+		parent:SetUserValue("ISOPENDROPCHANNELLIST", "NO");
+		return;
+	end
 
-    parent:SetUserValue("ISOPENDROPCHANNELLIST", "YES");
+	parent:SetUserValue("ISOPENDROPCHANNELLIST", "YES");
 
-    local frame = parent:GetTopParentFrame();
-    local ctrl = frame:GetChild("btn");
-    local curchannel = frame:GetChild("curchannel");
-    local mapName = session.GetMapName();
-    local mapCls = GetClass("Map", mapName);
+	local frame = parent:GetTopParentFrame();
+	local ctrl = frame:GetChild("btn");
 
-    local channel = session.loginInfo.GetChannel();
-
-	local zoneInsts = session.serverState.GetMap(mapCls.ClassID);
+	local zoneInsts = session.serverState.GetMap();
 
 	local NUMBER_OF_CHANNELS = zoneInsts:GetZoneInstCount();
 	local numberOfChannelsToShow = NUMBER_OF_CHANNELS;
@@ -48,33 +41,33 @@ function POPUP_CHANNEL_LIST_HOOKED(parent)
 		numberOfChannelsToShow = settings.maxNumberOfChannelsToShow;
 	end
 
-    local dropListFrame = ui.MakeDropListFrame(ctrl, -270, 0, 300, 600, numberOfChannelsToShow, ui.LEFT, "SELECT_ZONE_MOVE_CHANNEL");
+	local dropListFrame = ui.MakeDropListFrame(ctrl, -270, 0, 300, 600, numberOfChannelsToShow, ui.LEFT, "SELECT_ZONE_MOVE_CHANNEL");
 
-    if zoneInsts == nil then
-        app.RequestChannelTraffics(mapCls.ClassID);
-    else
-        if zoneInsts:NeedToCheckUpdate() == true then
-            app.RequestChannelTraffics(mapCls.ClassID);
-        end
+	if zoneInsts == nil then
+		app.RequestChannelTraffics();
+	else
+		if zoneInsts:NeedToCheckUpdate() == true then
+			app.RequestChannelTraffics();
+		end
 
-        for i = 0, NUMBER_OF_CHANNELS - 1 do
-            local zoneInst = zoneInsts:GetZoneInstByIndex(i);
-            local str, gaugeString = GET_CHANNEL_STRING(zoneInst);
-            ui.AddDropListItem(str, gaugeString, zoneInst.channel);
-        end
-    end
+		for i = 0, NUMBER_OF_CHANNELS - 1 do
+			local zoneInst = zoneInsts:GetZoneInstByIndex(i);
+			local str, gaugeString = GET_CHANNEL_STRING(zoneInst);
+			ui.AddDropListItem(str, gaugeString, zoneInst.channel);
+		end
+	end
 end
 
 function CHSURF_CHANGE_CHANNEL(nextChannel)
-	local mapName = session.GetMapName()
-	local mapCls = GetClass("Map", mapName);
-	local zoneInsts = session.serverState.GetMap(mapCls.ClassID);
+	local zoneInsts = session.serverState.GetMap();
 	local numberOfChannels = zoneInsts:GetZoneInstCount();
 	local currentChannel = session.loginInfo.GetChannel();
 	nextChannel = (1 + nextChannel + currentChannel) % numberOfChannels;
+
 	if nextChannel == 0 then
 		nextChannel = numberOfChannels;
 	end
+
 	SELECT_ZONE_MOVE_CHANNEL_HOOKED(0, nextChannel-1);
 end
 
